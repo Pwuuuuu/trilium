@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% if mode == "create" %}
+  {% set page_title = "New Note" %}
+  {% set action = "/notes" %}
+{% else %}
+  {% set page_title = "Edit Note" %}
+  {% set action = "/notes/" ~ note.id %}
+{% endif %}
+
+{% block title %}{{ page_title }} · MintMemo{% endblock %}
+
+{% block content %}
+  <div class="pagehead">
+    <h1>{{ page_title }}</h1>
+    <div class="muted">Markdown supported</div>
+  </div>
+
+  <form class="form" method="post" action="{{ action }}">
+    <label>
+      <div class="label">Title</div>
+      <input name="title" value="{{ note.title }}" placeholder="Untitled"/>
+    </label>
+
+    <label>
+      <div class="label">Tags</div>
+      <input name="tags" value="{{ note.tags|join(', ') }}" placeholder="e.g. study, math, project"/>
+      <div class="hint muted">Comma-separated</div>
+    </label>
+
+    <label>
+      <div class="label">Content</div>
+      <textarea name="content" rows="16" placeholder="# Write here...">{{ note.content }}</textarea>
+    </label>
+
+    <div class="row">
+      <button class="btn" type="submit">Save</button>
+      <a class="btn ghost" href="{% if mode=='create' %}/{% else %}/notes/{{ note.id }}{% endif %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}MintMemo{% endblock %}
+
+{% block content %}
+  <div class="pagehead">
+    {% if search_query %}
+      <h1>Search: <span class="mono">{{ search_query }}</span></h1>
+    {% elif active_tag %}
+      <h1>Tag: <span class="mono">{{ active_tag }}</span></h1>
+    {% else %}
+      <h1>Notes</h1>
+    {% endif %}
+    <div class="muted">{{ notes|length }} item(s)</div>
+  </div>
+
+  <div class="cards" id="notes">
+    {% for n in notes %}
+      {% include "_note_card.html" %}
+    {% else %}
+      <div class="empty">
+        <div class="empty-title">No notes yet</div>
+        <div class="muted">Create one and start writing.</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

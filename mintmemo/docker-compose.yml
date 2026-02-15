@@ -1,0 +1,14 @@
+services:
+  mintmemo:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MINTMEMO_DB_PATH=/data/mintmemo.db
+      # - MINTMEMO_AUTH_USER=admin
+      # - MINTMEMO_AUTH_PASS=change-me
+    volumes:
+      - mintmemo_data:/data
+
+volumes:
+  mintmemo_data:

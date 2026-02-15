@@ -1,0 +1,39 @@
+{% set compact = compact|default(False) %}
+<article class="card {% if n.pinned %}pinned{% endif %}" id="note-{{ n.id }}">
+  <div class="card-head">
+    <a class="card-title" href="/notes/{{ n.id }}">{{ n.title }}</a>
+    <div class="card-actions">
+      <button class="chip"
+              hx-post="/notes/{{ n.id }}/pin"
+              hx-target="#note-{{ n.id }}"
+              hx-swap="outerHTML"
+              title="Pin/unpin">
+        {% if n.pinned %}Pinned{% else %}Pin{% endif %}
+      </button>
+
+      <a class="chip" href="/notes/{{ n.id }}/edit">Edit</a>
+
+      <button class="chip danger"
+              hx-post="/notes/{{ n.id }}/delete"
+              hx-target="#note-{{ n.id }}"
+              hx-swap="outerHTML"
+              hx-confirm="Delete this note?">
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <div class="meta muted">
+    Updated {{ n.updated_at }}
+    {% if n.tags and n.tags|length > 0 %}
+      ·
+      {% for t in n.tags %}
+        <a class="pill" href="/?tag={{ t }}">{{ t }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  {% if not compact %}
+    <div class="excerpt">{{ n.excerpt }}</div>
+  {% endif %}
+</article>
