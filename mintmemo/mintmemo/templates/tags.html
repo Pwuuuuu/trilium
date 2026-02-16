@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Tags · MintMemo{% endblock %}
+
+{% block content %}
+  <div class="pagehead">
+    <h1>Tags</h1>
+    <div class="muted">{{ tags|length }} tag(s)</div>
+  </div>
+
+  <div class="cards">
+    {% for t in tags %}
+      <div class="card">
+        <div class="card-head">
+          <a class="card-title" href="/?tag={{ t.name }}">{{ t.name }}</a>
+          <div class="muted">{{ t.count }} note(s)</div>
+        </div>
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty-title">No tags</div>
+        <div class="muted">Add tags when creating notes.</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

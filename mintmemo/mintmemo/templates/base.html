@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}MintMemo{% endblock %}</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">MintMemo</a>
+
+      <form class="search" action="/search" method="get">
+        <input name="q" value="{{ search_query|default('') }}" placeholder="Search notes..." />
+      </form>
+
+      <nav class="nav">
+        <a class="btn" href="/notes/new">New</a>
+        <a class="btn ghost" href="/tags">Tags</a>
+        <a class="btn ghost" href="/export.json">Export</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <aside class="sidebar">
+      <div class="panel">
+        <div class="panel-title">Tags</div>
+        <div class="taglist">
+          <a class="tag {% if not active_tag %}active{% endif %}" href="/">All</a>
+          {% for t in tags|default([]) %}
+            <a class="tag {% if active_tag==t.name %}active{% endif %}" href="/?tag={{ t.name }}">{{ t.name }} <span class="muted">({{ t.count }})</span></a>
+          {% endfor %}
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container muted">Local-first notes · SQLite FTS5 · FastAPI</div>
+  </footer>
+</body>
+</html>

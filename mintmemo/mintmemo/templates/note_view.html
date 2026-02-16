@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ note.title }} · MintMemo{% endblock %}
+
+{% block content %}
+  <div class="pagehead">
+    <h1>{{ note.title }}</h1>
+    <div class="muted">Updated {{ note.updated_at }}</div>
+    <div class="row">
+      <a class="btn" href="/notes/{{ note.id }}/edit">Edit</a>
+      <form method="post" action="/notes/{{ note.id }}/delete" onsubmit="return confirm('Delete this note?')">
+        <button class="btn danger" type="submit">Delete</button>
+      </form>
+      <form method="post" action="/notes/{{ note.id }}/pin">
+        <button class="btn ghost" type="submit">{% if note.pinned %}Unpin{% else %}Pin{% endif %}</button>
+      </form>
+    </div>
+
+    {% if note.tags and note.tags|length > 0 %}
+      <div class="meta">
+        {% for t in note.tags %}
+          <a class="pill" href="/?tag={{ t }}">{{ t }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <article class="md">
+    {{ note.content_html }}
+  </article>
+{% endblock %}
